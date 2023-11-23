@@ -1,16 +1,10 @@
 import { CorsOptions } from "cors";
-
+import { allowedOrigins } from "./allowed-origins";
 // cross origin resource sharing
-const whiteList = [
-  // "https://www.google.com",
-  // "http://localhost:8080",
-  "http://localhost:3000",
-  "http://127.0.0.1:3000",
-];
 
 const corsOptions: CorsOptions = {
   origin: (origin: string | undefined, callback: Function) => {
-    if (!origin || whiteList.indexOf(origin) !== 1) {
+    if (!origin || allowedOrigins.indexOf(origin) !== 1) {
       callback(null, true);
       // callback(new Error("Not allowed by CORS"));
     } else {

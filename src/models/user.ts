@@ -7,6 +7,7 @@ interface UserFields {
   userLastName: string;
   userEmail: string;
   userPassword: string;
+  userRefreshToken: string;
 }
 
 // Properties that a user model requires
@@ -20,6 +21,7 @@ interface UserDocument extends mongoose.Document {
   userLastName: string;
   userEmail: string;
   userPassword: string;
+  userRefreshToken: string;
 }
 
 const userSchema = new mongoose.Schema({
@@ -27,6 +29,7 @@ const userSchema = new mongoose.Schema({
   userLastName: { type: String, required: true },
   userEmail: { type: String, required: true },
   userPassword: { type: String, required: true },
+  userRefreshToken: { type: String, required: false },
 });
 
 userSchema.pre("save", async function (done) {

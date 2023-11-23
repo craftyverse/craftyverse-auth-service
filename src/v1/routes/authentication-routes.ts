@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
-import { registerUser } from "../../controllers/authentication/register-user-controller";
-import { registerUserSchema } from "../../schemas/register-user-schema";
-import { RequestValidationError } from "@craftyverse-au/craftyverse-common";
+import { registerUserHandler } from "../../controllers/authentication/register-user-controller";
+import { loginUserHandler } from "../../controllers/authentication/login-user-controller";
+import { refreshTokenHandler } from "../../controllers/authentication/refresh-token-controller";
+import { logoutHandler } from "../../controllers/authentication/logout-user-controller";
 
 const router = express.Router();
 
@@ -11,12 +12,12 @@ router.get("/healthCheck", (req: Request, res: Response) => {
   });
 });
 
-router.post("/registerUser", registerUser);
+router.post("/registerUser", registerUserHandler);
 
-router.post("/loginUser", (req: Request, res: Response) => {
-  res.status(200).json({
-    message: "logged in user",
-  });
-});
+router.post("/loginUser", loginUserHandler);
+
+router.get("/refreshToken", refreshTokenHandler);
+
+router.get("/logout", logoutHandler);
 
 export { router as v1AuthenticationRouter };

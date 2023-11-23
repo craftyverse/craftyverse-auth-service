@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const registerUserSchema = z
+export const registerUserRequestSchema = z
   .object({
     userFirstName: z
       .string({ required_error: "Please provide your first name." })
@@ -40,4 +40,9 @@ export const registerUserSchema = z
     path: ["userConfirmPassword"],
   });
 
-export type RegisterUser = z.infer<typeof registerUserSchema>;
+export const registerUserResponseSchema = z.object({
+  userAccessToken: z.string(),
+});
+
+export type RegisterUser = z.infer<typeof registerUserRequestSchema>;
+export type RegisterUserResponse = z.infer<typeof registerUserResponseSchema>;
