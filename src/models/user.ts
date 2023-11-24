@@ -7,6 +7,7 @@ interface UserFields {
   userLastName: string;
   userEmail: string;
   userPassword: string;
+  userRoles: Record<string, number>;
   userRefreshToken: string;
 }
 
@@ -21,6 +22,7 @@ interface UserDocument extends mongoose.Document {
   userLastName: string;
   userEmail: string;
   userPassword: string;
+  userRoles: Record<string, number>;
   userRefreshToken: string;
 }
 
@@ -29,6 +31,7 @@ const userSchema = new mongoose.Schema({
   userLastName: { type: String, required: true },
   userEmail: { type: String, required: true },
   userPassword: { type: String, required: true },
+  userRoles: { type: Object, required: true },
   userRefreshToken: { type: String, required: false },
 });
 

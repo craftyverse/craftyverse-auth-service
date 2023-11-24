@@ -32,12 +32,17 @@ const refreshTokenHandler = asyncHandler(
           return res.sendStatus(403);
         }
 
+        const userRoles = Object.values(foundUser.userRoles);
+
         const accessToken = jwt.sign(
           {
-            userId: user._id,
-            userFirstName: user.userFirstName,
-            userLastName: user.userLastName,
-            userEmail: user.userEmail,
+            UserInfo: {
+              userId: user._id,
+              userFirstName: user.userFirstName,
+              userLastName: user.userLastName,
+              userEmail: user.userEmail,
+              userRoles,
+            },
           },
           process.env.ACCESS_TOKEN_SECRET!,
           { expiresIn: process.env.ACCESS_TOKEN_LIFE }

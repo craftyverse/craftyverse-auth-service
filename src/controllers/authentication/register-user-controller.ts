@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import {
   registerUserRequestSchema,
   RegisterUserResponse,
+  RegisterUser,
 } from "../../schemas/register-user-schema";
 import { UserService } from "../../services/users";
 import {
@@ -28,7 +29,7 @@ const registerUserHandler = asyncHandler(
       throw new RequestValidationError(authenticateUserData.error.issues);
     }
 
-    const user = authenticateUserData.data;
+    const user: RegisterUser = authenticateUserData.data;
 
     // Checking for existing user in database
     const existingUser = await UserService.getUserByEmail(user.userEmail);
@@ -43,12 +44,19 @@ const registerUserHandler = asyncHandler(
       throw new ConflictError(message);
     }
 
+    // Create new user
+
+    const userRoles = Object.values(user.userRoles);
+
     // Generate JWT
     const accessToken = jwt.sign(
       {
-        userFirstName: user.userFirstName,
-        userLastName: user.userLastName,
-        userEmail: user.userEmail,
+        UserInfo: {
+          userFirstName: user.userFirstName,
+          userLastName: user.userLastName,
+          userEmail: user.userEmail,
+          userRoles,
+        },
       },
       process.env.ACCESS_TOKEN_SECRET
         ? process.env.ACCESS_TOKEN_SECRET
@@ -59,9 +67,11 @@ const registerUserHandler = asyncHandler(
     // Generate refresh token
     const refreshToken = jwt.sign(
       {
-        userFirstName: user.userFirstName,
-        userLastName: user.userLastName,
-        userEmail: user.userEmail,
+        UserInfo: {
+          userFirstName: user.userFirstName,
+          userLastName: user.userLastName,
+          userEmail: user.userEmail,
+        },
       },
       process.env.REFRESH_TOKEN_SECRET
         ? process.env.REFRESH_TOKEN_SECRET
@@ -69,7 +79,6 @@ const registerUserHandler = asyncHandler(
       { expiresIn: process.env.REFRESH_TOKEN_LIFE }
     );
 
-    // Create new user
     const createdUser = await UserService.createUser(user, refreshToken);
 
     const createdUserResponse: RegisterUserResponse = {

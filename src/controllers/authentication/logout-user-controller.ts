@@ -38,6 +38,7 @@ const logoutHandler = asyncHandler(async (req: Request, res: Response) => {
   // clear refreshToken cookie
   res.clearCookie("jwt", {
     httpOnly: true,
+    sameSite: "none",
     secure:
       process.env.NODE_ENV === "production" || process.env.NODE_ENV === "test",
   });

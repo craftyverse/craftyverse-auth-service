@@ -28,6 +28,7 @@ export class UserService {
       userEmail: user.userEmail,
       userPassword: user.userPassword,
       userRefreshToken: refreshToken,
+      userRoles: user.userRoles,
     });
 
     return await newUser.save();

@@ -34,6 +34,7 @@ export const registerUserRequestSchema = z
     userConfirmPassword: z.string({
       required_error: "You forgot to re-enter your password.",
     }),
+    userRoles: z.record(z.string(), z.number()),
   })
   .refine((data) => data.userPassword === data.userConfirmPassword, {
     message: "your password does not match the above.",

@@ -63,13 +63,18 @@ const loginUserHandler = asyncHandler(async (req: Request, res: Response) => {
     throw new NotAuthorisedError();
   }
 
+  const userRoles = Object.values(existingUser.userRoles);
+
   // Generate JWT
   const accessToken = jwt.sign(
     {
-      userId: existingUser._id,
-      userFirstName: existingUser.userFirstName,
-      userLastName: existingUser.userLastName,
-      userEmail: existingUser.userEmail,
+      UserInfo: {
+        userId: existingUser._id,
+        userFirstName: existingUser.userFirstName,
+        userLastName: existingUser.userLastName,
+        userEmail: existingUser.userEmail,
+        userRoles,
+      },
     },
     process.env.ACCESS_TOKEN_SECRET
       ? process.env.ACCESS_TOKEN_SECRET
@@ -105,6 +110,7 @@ const loginUserHandler = asyncHandler(async (req: Request, res: Response) => {
 
   res.cookie("jwt", refreshToken, {
     httpOnly: true,
+    sameSite: "none",
     secure:
       process.env.NODE_ENV === "production" || process.env.NODE_ENV === "test",
     maxAge: 24 * 60 * 60 * 1000, // 1 Day

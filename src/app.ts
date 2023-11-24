@@ -1,8 +1,10 @@
 import express from "express";
 import cors from "cors";
-import { logger, logEvents } from "./middleware/log-events";
+import { logger } from "./middleware/log-events";
 import { corsOptions } from "../config/cors-options";
 import cookieParser from "cookie-parser";
+import { credentials } from "./middleware/credentials";
+
 import {
   NotFoundError,
   errorHandler,
@@ -16,6 +18,7 @@ const app = express();
 // Custom logger
 app.use(logger);
 
+app.use(credentials);
 app.use(cors(corsOptions));
 
 app.use(express.urlencoded({ extended: false }));
