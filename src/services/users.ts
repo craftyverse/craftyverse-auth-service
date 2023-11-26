@@ -50,7 +50,6 @@ export class UserService {
   }
 
   static async deleteRefreshTokenByUser(refreshToken: string) {
-    console.log("This is the refresh token", refreshToken);
     const user = await User.findOne({ userRefreshToken: refreshToken });
 
     if (!user) {

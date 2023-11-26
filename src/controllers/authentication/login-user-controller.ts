@@ -85,10 +85,12 @@ const loginuserHandler = asyncHandler(async (req: Request, res: Response) => {
   // Generate refresh token
   const refreshToken = jwt.sign(
     {
-      userId: existingUser._id,
-      userFirstName: existingUser.userFirstName,
-      userLastName: existingUser.userLastName,
-      userEmail: existingUser.userEmail,
+      UserInfo: {
+        userId: existingUser._id,
+        userFirstName: existingUser.userFirstName,
+        userLastName: existingUser.userLastName,
+        userEmail: existingUser.userEmail,
+      },
     },
     process.env.REFRESH_TOKEN_SECRET
       ? process.env.REFRESH_TOKEN_SECRET
@@ -102,10 +104,6 @@ const loginuserHandler = asyncHandler(async (req: Request, res: Response) => {
     refreshToken
   );
 
-  const authenticatedUserResponse: loginuserResponse = {
-    userAccessToken: accessToken,
-  };
-
   res.cookie("jwt", refreshToken, {
     httpOnly: true,
     sameSite: "none",
@@ -113,6 +111,10 @@ const loginuserHandler = asyncHandler(async (req: Request, res: Response) => {
       process.env.NODE_ENV === "production" || process.env.NODE_ENV === "test",
     maxAge: 24 * 60 * 60 * 1000, // 1 Day
   });
+
+  const authenticatedUserResponse: loginuserResponse = {
+    userAccessToken: accessToken,
+  };
 
   res.status(200).send(authenticatedUserResponse);
 });

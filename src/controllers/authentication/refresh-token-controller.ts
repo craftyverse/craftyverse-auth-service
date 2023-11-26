@@ -10,25 +10,21 @@ const refreshTokenHandler = asyncHandler(
     const cookies = req.cookies;
 
     if (!cookies?.jwt) {
-      console.log("error 1 :(");
       throw new NotAuthorisedError();
     }
 
-    console.log("Cookie", cookies.jwt);
     const userRefreshToken = cookies.jwt;
 
     const foundUser = await UserService.getUserByRefreshToken(userRefreshToken);
     if (!foundUser) {
-      console.log("error :(");
       throw new NotAuthorisedError();
     }
-    console.log("refresh token", foundUser);
 
     jwt.verify(
       userRefreshToken,
       process.env.REFRESH_TOKEN_SECRET!,
       (err: any, user: any) => {
-        if (err || foundUser._id.toString() !== user.userId) {
+        if (err || foundUser.userEmail !== user.UserInfo.userEmail) {
           return res.sendStatus(403);
         }
 

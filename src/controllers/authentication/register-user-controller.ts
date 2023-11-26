@@ -70,6 +70,7 @@ const registeruserHandler = asyncHandler(
           userFirstName: user.userFirstName,
           userLastName: user.userLastName,
           userEmail: user.userEmail,
+          userRoles,
         },
       },
       process.env.REFRESH_TOKEN_SECRET
@@ -83,6 +84,15 @@ const registeruserHandler = asyncHandler(
     const createdUserResponse: registeruserResponse = {
       userAccessToken: accessToken,
     };
+
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      sameSite: "none",
+      secure:
+        process.env.NODE_ENV === "production" ||
+        process.env.NODE_ENV === "staging",
+      maxAge: 24 * 60 * 60 * 1000, // 1 Day
+    });
 
     res.status(201).json(createdUserResponse);
   }
