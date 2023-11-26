@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
 import {
-  registerUserRequestSchema,
-  RegisterUserResponse,
-  RegisterUser,
+  registeruserRequestSchema,
+  registeruserResponse,
+  registeruser,
 } from "../../schemas/register-user-schema";
 import { UserService } from "../../services/users";
 import {
@@ -13,13 +13,12 @@ import {
 } from "@craftyverse-au/craftyverse-common";
 import { logEvents } from "../../middleware/log-events";
 
-const registerUserHandler = asyncHandler(
+const registeruserHandler = asyncHandler(
   async (req: Request, res: Response) => {
     // Validating user data
-    const authenticateUserData = registerUserRequestSchema.safeParse(req.body);
+    const authenticateUserData = registeruserRequestSchema.safeParse(req.body);
 
     if (!authenticateUserData.success) {
-      console.log(authenticateUserData.error.issues);
       logEvents(
         `${req.method}\t${req.headers.origin}\t${req.url}\t${JSON.stringify(
           authenticateUserData.error.issues
@@ -29,7 +28,7 @@ const registerUserHandler = asyncHandler(
       throw new RequestValidationError(authenticateUserData.error.issues);
     }
 
-    const user: RegisterUser = authenticateUserData.data;
+    const user: registeruser = authenticateUserData.data;
 
     // Checking for existing user in database
     const existingUser = await UserService.getUserByEmail(user.userEmail);
@@ -81,12 +80,12 @@ const registerUserHandler = asyncHandler(
 
     const createdUser = await UserService.createUser(user, refreshToken);
 
-    const createdUserResponse: RegisterUserResponse = {
+    const createdUserResponse: registeruserResponse = {
       userAccessToken: accessToken,
     };
 
-    res.status(200).json(createdUserResponse);
+    res.status(201).json(createdUserResponse);
   }
 );
 
-export { registerUserHandler };
+export { registeruserHandler };

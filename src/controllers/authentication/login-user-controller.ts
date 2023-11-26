@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 import {
-  loginUserRequestSchema,
-  loginUserResponse,
+  loginuserRequestSchema,
+  loginuserResponse,
 } from "../../schemas/login-user-schema";
 import {
   BadRequestError,
@@ -16,9 +16,9 @@ import { UserService } from "../../services/users";
 import { logEvents } from "../../middleware/log-events";
 import { PasswordGenerator } from "../../services/password";
 
-const loginUserHandler = asyncHandler(async (req: Request, res: Response) => {
+const loginuserHandler = asyncHandler(async (req: Request, res: Response) => {
   // Validating request data
-  const authenticateUserData = loginUserRequestSchema.safeParse(req.body);
+  const authenticateUserData = loginuserRequestSchema.safeParse(req.body);
 
   if (!authenticateUserData.success) {
     logEvents(
@@ -38,7 +38,7 @@ const loginUserHandler = asyncHandler(async (req: Request, res: Response) => {
   );
 
   if (!existingUser) {
-    const methodName = "loginUser";
+    const methodName = "loginuser";
     const message = "User does not exist. Please register.";
     logEvents(
       `${req.method}\t${req.headers.origin}\t${methodName}\t${message}`,
@@ -54,7 +54,7 @@ const loginUserHandler = asyncHandler(async (req: Request, res: Response) => {
   );
 
   if (!passwordMatch) {
-    const methodName = "loginUser";
+    const methodName = "loginuser";
     const message = "Invalid password.";
     logEvents(
       `${req.method}\t${req.headers.origin}\t${methodName}\t${message}`,
@@ -102,9 +102,7 @@ const loginUserHandler = asyncHandler(async (req: Request, res: Response) => {
     refreshToken
   );
 
-  console.log(authenticatedUser);
-
-  const authenticatedUserResponse: loginUserResponse = {
+  const authenticatedUserResponse: loginuserResponse = {
     userAccessToken: accessToken,
   };
 
@@ -119,4 +117,4 @@ const loginUserHandler = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).send(authenticatedUserResponse);
 });
 
-export { loginUserHandler };
+export { loginuserHandler };

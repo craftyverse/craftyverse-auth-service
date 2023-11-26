@@ -15,11 +15,15 @@ router.get(
   }
 );
 
-router.post("/createUser", (req: Request, res: Response) => {
-  res.status(200).json({
-    message: "User Management",
-  });
-});
+router.post(
+  "/createUser",
+  verifyRoles(ROLES_LIST.admin, ROLES_LIST.user),
+  (req: Request, res: Response) => {
+    res.status(200).json({
+      message: "User Management",
+    });
+  }
+);
 
 router.patch("/updateUserFields", (req: Request, res: Response) => {
   res.status(200).json({

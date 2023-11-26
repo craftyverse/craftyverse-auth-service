@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const registerUserRequestSchema = z
+export const registeruserRequestSchema = z
   .object({
     userFirstName: z
       .string({ required_error: "Please provide your first name." })
@@ -28,7 +28,7 @@ export const registerUserRequestSchema = z
       .regex(new RegExp(".*\\d.*"), "You need to provide at least one number.")
       .regex(
         new RegExp(".*[`~<>?,./!@#$%^&*()\\-_+=\"'|{}\\[\\];:\\\\].*"),
-        "You need to provide at least one special character"
+        "You need to provide at least one special character."
       )
       .min(8, "Must be at least 8 characters in length."),
     userConfirmPassword: z.string({
@@ -41,9 +41,9 @@ export const registerUserRequestSchema = z
     path: ["userConfirmPassword"],
   });
 
-export const registerUserResponseSchema = z.object({
+export const registeruserResponseSchema = z.object({
   userAccessToken: z.string(),
 });
 
-export type RegisterUser = z.infer<typeof registerUserRequestSchema>;
-export type RegisterUserResponse = z.infer<typeof registerUserResponseSchema>;
+export type registeruser = z.infer<typeof registeruserRequestSchema>;
+export type registeruserResponse = z.infer<typeof registeruserResponseSchema>;

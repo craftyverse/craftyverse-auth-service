@@ -11,14 +11,16 @@ declare global {
       userFirstName: string;
       userLastName: string;
       userEmail: string;
-      userRoles: string[];
+      userRoles: number[];
     }
   }
 }
 const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;
 
-  if (!Array.isArray(authHeader) && !authHeader?.startsWith("Bearer ")) {
+  console.log("This is the auth header: ", authHeader);
+
+  if (!authHeader) {
     throw new NotAuthorisedError();
   }
 
@@ -31,11 +33,11 @@ const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
       return res.sendStatus(403);
     }
     console.log(user);
-    req.userId = (user as JwtPayload).userId;
-    req.userFirstName = (user as JwtPayload).userFirstName;
-    req.userLastName = (user as JwtPayload).userLastName;
-    req.userEmail = (user as JwtPayload).userEmail;
-    req.userRoles = (user as JwtPayload).userRoles;
+    req.userId = (user as JwtPayload).UserInfo.userId;
+    req.userFirstName = (user as JwtPayload).UserInfo.userFirstName;
+    req.userLastName = (user as JwtPayload).UserInfo.userLastName;
+    req.userEmail = (user as JwtPayload).UserInfo.userEmail;
+    req.userRoles = (user as JwtPayload).UserInfo.userRoles;
     next();
   });
 };

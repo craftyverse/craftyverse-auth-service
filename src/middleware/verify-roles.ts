@@ -8,17 +8,9 @@ const verifyRoles = (...allowedRoles: number[]) => {
     }
 
     const rolesArray = [...allowedRoles];
-    console.log(rolesArray);
-    console.log(req.userRoles);
-
-    const result = req.userRoles
-      .map((roles) => {
-        return rolesArray.includes(parseInt(roles));
-      })
-      .find((result) => result === true);
-    if (!result) {
-      throw new NotAuthorisedError();
-    }
+    req.userRoles.some((role) => {
+      return rolesArray.includes(role);
+    });
 
     next();
   };

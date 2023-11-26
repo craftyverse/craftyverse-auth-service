@@ -1,5 +1,5 @@
 import { User } from "../models/user";
-import { RegisterUser } from "../schemas/register-user-schema";
+import { registeruser } from "../schemas/register-user-schema";
 import { logEvents } from "../middleware/log-events";
 import {
   BadRequestError,
@@ -21,7 +21,7 @@ export class UserService {
     return responseUser;
   }
 
-  static async createUser(user: RegisterUser, refreshToken: string) {
+  static async createUser(user: registeruser, refreshToken: string) {
     const newUser = User.build({
       userFirstName: user.userFirstName,
       userLastName: user.userLastName,
@@ -41,12 +41,6 @@ export class UserService {
   ) {
     const user = await User.findOne({ userEmail: userEmail });
     if (!user) {
-      const methodName = "updateUserField";
-      const message = "User does not exist.";
-      logEvents(
-        `${methodName}\t${message}\t${userEmail}\t${field}\t${value}`,
-        "error.txt"
-      );
       throw new NotFoundError("User does not exist.");
     }
 
@@ -59,12 +53,7 @@ export class UserService {
     console.log("This is the refresh token", refreshToken);
     const user = await User.findOne({ userRefreshToken: refreshToken });
 
-    console.log("This is the user", user);
-
     if (!user) {
-      const methodName = "deleteRefreshTokenByUser";
-      const message = "User does not exist.";
-      logEvents(`${methodName}\t${message}\t${refreshToken}`, "error.txt");
       throw new NotFoundError("User does not exist.");
     }
 

@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
-import { registerUserHandler } from "../../controllers/authentication/register-user-controller";
-import { loginUserHandler } from "../../controllers/authentication/login-user-controller";
+import { registeruserHandler } from "../../controllers/authentication/register-user-controller";
+import { loginuserHandler } from "../../controllers/authentication/login-user-controller";
 import { refreshTokenHandler } from "../../controllers/authentication/refresh-token-controller";
 import { logoutHandler } from "../../controllers/authentication/logout-user-controller";
 
@@ -12,9 +12,9 @@ router.get("/healthCheck", (req: Request, res: Response) => {
   });
 });
 
-router.post("/registerUser", registerUserHandler);
+router.post("/registeruser", registeruserHandler);
 
-router.post("/loginUser", loginUserHandler);
+router.post("/loginuser", loginuserHandler);
 
 router.get("/refreshToken", refreshTokenHandler);
 
