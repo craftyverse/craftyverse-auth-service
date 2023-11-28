@@ -9,7 +9,7 @@ interface UserFields {
   userPassword: string;
   userRoles: Record<string, number>;
   userRefreshToken: string;
-  userOtp: string;
+  userOtp: string | undefined;
 }
 
 // Properties that a user model requires
@@ -25,7 +25,7 @@ interface UserDocument extends mongoose.Document {
   userPassword: string;
   userRoles: Record<string, number>;
   userRefreshToken: string;
-  userOtp: string;
+  userOtp: string | undefined;
 }
 
 const userSchema = new mongoose.Schema({

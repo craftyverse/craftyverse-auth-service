@@ -1,7 +1,7 @@
 import request from "supertest";
 
-import { User } from "../../../models/user";
-import { app } from "../../../app";
+import { User } from "../../models/user";
+import { app } from "../../app";
 
 describe("GET /api/users/v1/authentication/refreshkoken", () => {
   const userRegistrationInfo = {

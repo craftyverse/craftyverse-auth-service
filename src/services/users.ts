@@ -21,6 +21,12 @@ export class UserService {
     return responseUser;
   }
 
+  static async getUserByOtp(userOtp: string) {
+    const existingUser = await User.findOne({ userOtp: userOtp });
+    const responseUser = existingUser?.toJSON();
+    return responseUser;
+  }
+
   static async createUser(user: registeruser, refreshToken: string) {
     const newUser = User.build({
       userFirstName: user.userFirstName,
@@ -29,6 +35,7 @@ export class UserService {
       userPassword: user.userPassword,
       userRefreshToken: refreshToken,
       userRoles: user.userRoles,
+      userOtp: undefined,
     });
 
     return await newUser.save();

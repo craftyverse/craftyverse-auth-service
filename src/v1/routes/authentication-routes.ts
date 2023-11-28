@@ -3,6 +3,7 @@ import { registeruserHandler } from "../../controllers/register-user-controller"
 import { loginuserHandler } from "../../controllers/login-user-controller";
 import { refreshTokenHandler } from "../../controllers/refresh-token-controller";
 import { logoutHandler } from "../../controllers/logout-user-controller";
+import { generateOTPHandler } from "../../controllers/generate-otp-controller";
 
 const router = express.Router();
 
@@ -20,7 +21,7 @@ router.get("/refreshtoken", refreshTokenHandler);
 
 router.get("/logout", logoutHandler);
 
-router.get("/generateotp", (req: Request, res: Response) => {});
+router.post("/generateotp", generateOTPHandler);
 
 router.post("/verifyotp", (req: Request, res: Response) => {});
 

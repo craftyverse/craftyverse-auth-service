@@ -1,5 +1,6 @@
 import { app } from "./app";
 import mongoose from "mongoose";
+import nodemailer from "nodemailer";
 import "dotenv/config";
 
 const PORT = process.env.PORT;

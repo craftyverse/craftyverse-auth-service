@@ -1,5 +1,5 @@
 import request from "supertest";
-import { app } from "../../../app";
+import { app } from "../../app";
 
 describe("POST /api/users/v1/authentication/loginuser", () => {
   describe("## Request payload validation", () => {

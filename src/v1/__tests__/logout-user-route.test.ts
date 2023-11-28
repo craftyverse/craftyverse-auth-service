@@ -1,7 +1,7 @@
 import request from "supertest";
-import { app } from "../../../app";
+import { app } from "../../app";
 import jwt from "jsonwebtoken";
-import { User } from "../../../models/user";
+import { User } from "../../models/user";
 
 describe("## GET /api/users/v1/authentication/logout", () => {
   const userRegistrationInfo = {
