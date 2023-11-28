@@ -4,11 +4,6 @@ import jwt from "jsonwebtoken";
 import { User } from "../../../models/user";
 
 describe("## GET /api/users/v1/authentication/logout", () => {
-  console.log(
-    "This is the test ACCESS_TOKEN_SECRET",
-    process.env.ACCESS_TOKEN_SECRET
-  );
-
   const userRegistrationInfo = {
     userFirstName: "Tony",
     userLastName: "test",
@@ -79,8 +74,6 @@ describe("## GET /api/users/v1/authentication/logout", () => {
     const registeredUser = await User.findOne({
       userEmail: userRegistrationInfo.userEmail,
     });
-
-    console.log("user: ", registeredUser);
 
     expect(response.status).toBe(201);
 

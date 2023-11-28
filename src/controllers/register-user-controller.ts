@@ -5,13 +5,13 @@ import {
   registeruserRequestSchema,
   registeruserResponse,
   registeruser,
-} from "../../schemas/register-user-schema";
-import { UserService } from "../../services/users";
+} from "../schemas/register-user-schema";
+import { UserService } from "../services/users";
 import {
   RequestValidationError,
   ConflictError,
 } from "@craftyverse-au/craftyverse-common";
-import { logEvents } from "../../middleware/log-events";
+import { logEvents } from "../middleware/log-events";
 
 const registeruserHandler = asyncHandler(
   async (req: Request, res: Response) => {

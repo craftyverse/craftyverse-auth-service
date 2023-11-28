@@ -6,7 +6,7 @@ const PORT = process.env.PORT;
 const MONGODB_CONNECTION_STRING = process.env.MONGODB_CONNECTION_STRING;
 
 const server = async () => {
-  if (process.env.NODE_ENV === "local-dev") {
+  if (process.env.NODE_ENV === "dev") {
     if (!MONGODB_CONNECTION_STRING) {
       throw new Error("MONGODB_CONNECTION_STRING not defined");
     }
@@ -21,13 +21,11 @@ const server = async () => {
     }
 
     app.listen(PORT, () => {
-      console.log(
-        `V1 Server running on port ${PORT} running in local-dev mode`
-      );
+      console.log(`V1 Server running on port ${PORT} running in dev mode`);
     });
   }
 
-  if (process.env.NODE_ENV === "local-integrated") {
+  if (process.env.NODE_ENV === "integrated") {
     const PORT = process.env.PORT;
 
     app.listen(PORT, () => {

@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
-import { registeruserHandler } from "../../controllers/authentication/register-user-controller";
-import { loginuserHandler } from "../../controllers/authentication/login-user-controller";
-import { refreshTokenHandler } from "../../controllers/authentication/refresh-token-controller";
-import { logoutHandler } from "../../controllers/authentication/logout-user-controller";
+import { registeruserHandler } from "../../controllers/register-user-controller";
+import { loginuserHandler } from "../../controllers/login-user-controller";
+import { refreshTokenHandler } from "../../controllers/refresh-token-controller";
+import { logoutHandler } from "../../controllers/logout-user-controller";
 
 const router = express.Router();
 
@@ -19,5 +19,9 @@ router.post("/loginuser", loginuserHandler);
 router.get("/refreshtoken", refreshTokenHandler);
 
 router.get("/logout", logoutHandler);
+
+router.get("/generateotp", (req: Request, res: Response) => {});
+
+router.post("/verifyotp", (req: Request, res: Response) => {});
 
 export { router as v1AuthenticationRouter };

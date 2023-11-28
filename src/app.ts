@@ -10,8 +10,6 @@ import {
   errorHandler,
 } from "@craftyverse-au/craftyverse-common";
 import { v1AuthenticationRouter } from "./v1/routes/authentication-routes";
-import { v1UserManagementRouter } from "./v1/routes/user-management-routes";
-import { verifyJWT } from "./middleware/verify-jwt";
 
 const app = express();
 
@@ -26,9 +24,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/users/v1/authentication", v1AuthenticationRouter);
-
-app.use(verifyJWT);
-app.use("/api/users/v1/usermgnt", v1UserManagementRouter);
 
 app.all("*", () => {
   const message = "The route that you have requested does not exist";

@@ -6,15 +6,15 @@ import "dotenv/config";
 import {
   loginuserRequestSchema,
   loginuserResponse,
-} from "../../schemas/login-user-schema";
+} from "../schemas/login-user-schema";
 import {
   BadRequestError,
   RequestValidationError,
   NotAuthorisedError,
 } from "@craftyverse-au/craftyverse-common";
-import { UserService } from "../../services/users";
-import { logEvents } from "../../middleware/log-events";
-import { PasswordGenerator } from "../../services/password";
+import { UserService } from "../services/users";
+import { logEvents } from "../middleware/log-events";
+import { PasswordGenerator } from "../services/password";
 
 const loginuserHandler = asyncHandler(async (req: Request, res: Response) => {
   // Validating request data
