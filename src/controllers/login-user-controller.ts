@@ -90,6 +90,7 @@ const loginuserHandler = asyncHandler(async (req: Request, res: Response) => {
         userFirstName: existingUser.userFirstName,
         userLastName: existingUser.userLastName,
         userEmail: existingUser.userEmail,
+        userRoles,
       },
     },
     process.env.REFRESH_TOKEN_SECRET
@@ -98,7 +99,7 @@ const loginuserHandler = asyncHandler(async (req: Request, res: Response) => {
     { expiresIn: process.env.REFRESH_TOKEN_LIFE }
   );
 
-  const authenticatedUser = await UserService.updateUserField(
+  await UserService.updateUserField(
     existingUser.userEmail,
     "userRefreshToken",
     refreshToken

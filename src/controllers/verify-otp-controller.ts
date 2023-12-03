@@ -1,17 +1,21 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import "dotenv/config";
+import jwt from "jsonwebtoken";
 import { logEvents } from "../middleware/log-events";
 import {
   BadRequestError,
+  NotAuthorisedError,
   RequestValidationError,
 } from "@craftyverse-au/craftyverse-common";
 import { UserService } from "../services/users";
-import { userotpVerificationSchema } from "../schemas/otp-schema";
+import { userOtpVerificationSchema } from "../schemas/otp-schema";
+import { PasswordGenerator } from "../services/password";
 
 const verifyOTPHandler = asyncHandler(async (req: Request, res: Response) => {
   // Validating request data
-  const userOtpRequest = userotpVerificationSchema.safeParse(req.body);
+  const userOtpRequest = userOtpVerificationSchema.safeParse(req.body);
+  const currentTime = new Date().getTime();
 
   if (!userOtpRequest.success) {
     logEvents(
@@ -26,7 +30,7 @@ const verifyOTPHandler = asyncHandler(async (req: Request, res: Response) => {
   const user = userOtpRequest.data;
 
   // Checking for existing user in database
-  const existingUser = await UserService.getUserByOtp(user.userOtp);
+  const existingUser = await UserService.getUserByEmail(user.userEmail);
 
   if (!existingUser) {
     const methodName = "getUserByOtp";
@@ -38,7 +42,41 @@ const verifyOTPHandler = asyncHandler(async (req: Request, res: Response) => {
     throw new BadRequestError(message);
   }
 
-  res.sendStatus(200);
+  console.log("stored OTP: ", existingUser.userOtp);
+  console.log("request OTP", user.userOtp);
+
+  // Checking if OTP is valid
+  if (existingUser.userOtpExpireAt && existingUser.userOtp) {
+    if (existingUser.userOtpExpireAt < currentTime) {
+      const methodName = "verifyOtpHandler";
+      const message = "OTP has expired. Please generate a new OTP.";
+      logEvents(
+        `${req.method}\t${req.headers.origin}\t${methodName}\t${message}`,
+        "error.txt"
+      );
+      throw new BadRequestError(message);
+    }
+
+    const isOtpValid = await PasswordGenerator.compare(
+      existingUser.userOtp,
+      user.userOtp
+    );
+
+    if (!isOtpValid) {
+      const methodName = "verifyOtpHandler";
+      const message = "OTP is invalid. Please try again.";
+      logEvents(
+        `${req.method}\t${req.headers.origin}\t${methodName}\t${message}`,
+        "error.txt"
+      );
+      throw new BadRequestError(message);
+    }
+  }
+
+  // Updating user's OTP verification status
+  await UserService.updateUserField(user.userEmail, "userOtpVerified", true);
+
+  res.status(200).send("Successfully verified OTP.");
 });
 
 export { verifyOTPHandler };

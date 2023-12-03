@@ -4,6 +4,8 @@ import { loginuserHandler } from "../../controllers/login-user-controller";
 import { refreshTokenHandler } from "../../controllers/refresh-token-controller";
 import { logoutHandler } from "../../controllers/logout-user-controller";
 import { generateOTPHandler } from "../../controllers/generate-otp-controller";
+import { verifyOTPHandler } from "../../controllers/verify-otp-controller";
+import { updatePasswordController } from "../../controllers/update-password-controller";
 
 const router = express.Router();
 
@@ -23,6 +25,8 @@ router.get("/logout", logoutHandler);
 
 router.post("/generateotp", generateOTPHandler);
 
-router.post("/verifyotp", (req: Request, res: Response) => {});
+router.post("/verifyotp", verifyOTPHandler);
+
+router.patch("/updatepassword", updatePasswordController);
 
 export { router as v1AuthenticationRouter };

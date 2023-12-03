@@ -36,6 +36,8 @@ export class UserService {
       userRefreshToken: refreshToken,
       userRoles: user.userRoles,
       userOtp: undefined,
+      userOtpExpireAt: undefined,
+      userOtpVerified: undefined,
     });
 
     return await newUser.save();
@@ -44,7 +46,7 @@ export class UserService {
   static async updateUserField(
     userEmail: string,
     field: string,
-    value: string
+    value: string | boolean | number | Record<string, number>
   ) {
     const user = await User.findOne({ userEmail: userEmail });
     if (!user) {

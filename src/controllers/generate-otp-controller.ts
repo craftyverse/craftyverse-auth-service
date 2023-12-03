@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import "dotenv/config";
-import nodemailer from "nodemailer";
 import { UserService } from "../services/users";
 import { userOtpRequestSchema, userOtpRequest } from "../schemas/otp-schema";
 import { logEvents } from "../middleware/log-events";
@@ -10,6 +9,7 @@ import {
   BadRequestError,
   RequestValidationError,
 } from "@craftyverse-au/craftyverse-common";
+import { PasswordGenerator } from "../services/password";
 
 const generateOTPHandler = asyncHandler(async (req: Request, res: Response) => {
   // Configure nodemailer
@@ -44,7 +44,7 @@ const generateOTPHandler = asyncHandler(async (req: Request, res: Response) => {
 
   // Generate a unique 6 character string as the OTP
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
+  console.log(otp);
   const mailOptions = {
     from: process.env.NODEMAILER_OTP_HOST_EMAIL,
     to: userOtp.userEmail,
@@ -52,8 +52,24 @@ const generateOTPHandler = asyncHandler(async (req: Request, res: Response) => {
     text: `Your OTP is ${otp}`,
   };
 
+  const expireAt = new Date().getTime();
+  const otpExpiryDuration =
+    expireAt + parseInt(process.env.OTP_EXPIRY_DURATION!);
+  console.log(parseInt(process.env.OTP_EXPIRY_DURATION!));
+  const otpExpiryTime = otpExpiryDuration.toString();
+  const hashedOtp = await PasswordGenerator.hashPassword(otp);
+
   // Save the OTP to the database against the user
-  await UserService.updateUserField(existingUser.userEmail, "userOtp", otp);
+  await UserService.updateUserField(
+    existingUser.userEmail,
+    "userOtp",
+    hashedOtp
+  );
+  await UserService.updateUserField(
+    existingUser.userEmail,
+    "userOtpExpireAt",
+    otpExpiryTime
+  );
 
   // Send the OTP to the user's email
   nodemailerTransporter.sendMail(mailOptions, (error, info) => {
@@ -76,6 +92,11 @@ const generateOTPHandler = asyncHandler(async (req: Request, res: Response) => {
         message: `OTP sent successfully ${info.response}`,
       });
     }
+  });
+
+  res.status(200).send({
+    message: `OTP sent successfully`,
+    userOtp: hashedOtp,
   });
 });
 

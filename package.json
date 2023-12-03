@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev:local": "ts-node-dev --poll src/server.ts",
-    "test": "jest --no-cache --verbose --coverage --forceExit"
+    "test": "jest --no-cache --verbose --coverage --detectOpenHandles --forceExit"
   },
   "jest": {
     "preset": "ts-jest",
@@ -48,5 +48,8 @@
     "typescript": "^5.2.2",
     "uuid": "^9.0.1",
     "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "nodemailer-mock": "^2.0.2"
   }
 }

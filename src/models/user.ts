@@ -10,6 +10,8 @@ interface UserFields {
   userRoles: Record<string, number>;
   userRefreshToken: string;
   userOtp: string | undefined;
+  userOtpExpireAt: number | undefined;
+  userOtpVerified: boolean | undefined;
 }
 
 // Properties that a user model requires
@@ -26,6 +28,8 @@ interface UserDocument extends mongoose.Document {
   userRoles: Record<string, number>;
   userRefreshToken: string;
   userOtp: string | undefined;
+  userOtpExpireAt: number | undefined;
+  userOtpVerified: boolean | undefined;
 }
 
 const userSchema = new mongoose.Schema({
@@ -36,6 +40,8 @@ const userSchema = new mongoose.Schema({
   userRoles: { type: Object, required: true },
   userRefreshToken: { type: String, required: false },
   userOtp: { type: String, required: false },
+  userOtpExpireAt: { type: Number, required: false },
+  userOtpVerified: { type: Boolean, required: false },
 });
 
 userSchema.pre("save", async function (done) {
