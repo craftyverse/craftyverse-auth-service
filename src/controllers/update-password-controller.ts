@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 import { userPasswordUpdateSchema } from "../schemas/otp-schema";
 import {
   BadRequestError,
-  NotAuthorisedError,
   RequestValidationError,
 } from "@craftyverse-au/craftyverse-common";
 import { logEvents } from "../middleware/log-events";
@@ -42,7 +41,7 @@ const updatePasswordController = asyncHandler(
         `${req.method}\t${req.headers.origin}\t${methodName}\t${message}`,
         "error.txt"
       );
-      throw new NotAuthorisedError();
+      throw new BadRequestError("The user does not exist. Please register.");
     }
 
     // Generating hashed password
@@ -51,7 +50,7 @@ const updatePasswordController = asyncHandler(
     );
 
     // Updating user's password
-    const updatedUser = await UserService.updateUserField(
+    await UserService.updateUserField(
       existingUser.userEmail,
       "userPassword",
       userPassword
