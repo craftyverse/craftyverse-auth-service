@@ -79,7 +79,7 @@ const registeruserHandler = asyncHandler(
       { expiresIn: process.env.REFRESH_TOKEN_LIFE }
     );
 
-    const createdUser = await UserService.createUser(user, refreshToken);
+    await UserService.createUser(user, refreshToken);
 
     const createdUserResponse: registeruserResponse = {
       userAccessToken: accessToken,

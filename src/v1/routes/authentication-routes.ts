@@ -9,7 +9,7 @@ import { updatePasswordController } from "../../controllers/update-password-cont
 
 const router = express.Router();
 
-router.get("/healthCheck", (req: Request, res: Response) => {
+router.get("/healthcheck", (req: Request, res: Response) => {
   res.status(200).json({
     health: "OK",
   });

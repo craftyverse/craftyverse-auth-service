@@ -1,6 +1,5 @@
 import { User } from "../models/user";
 import { registeruser } from "../schemas/register-user-schema";
-import { logEvents } from "../middleware/log-events";
 import {
   BadRequestError,
   NotFoundError,
