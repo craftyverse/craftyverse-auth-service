@@ -34,7 +34,7 @@ export const registeruserRequestSchema = z
     userConfirmPassword: z.string({
       required_error: "You forgot to re-enter your password.",
     }),
-    userRoles: z.record(z.string(), z.number()),
+    userRoles: z.array(z.number()),
   })
   .refine((data) => data.userPassword === data.userConfirmPassword, {
     message: "your password does not match the above.",
@@ -45,5 +45,5 @@ export const registeruserResponseSchema = z.object({
   userAccessToken: z.string(),
 });
 
-export type registeruser = z.infer<typeof registeruserRequestSchema>;
+export type registerUser = z.infer<typeof registeruserRequestSchema>;
 export type registeruserResponse = z.infer<typeof registeruserResponseSchema>;

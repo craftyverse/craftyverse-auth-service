@@ -7,7 +7,7 @@ interface UserFields {
   userLastName: string;
   userEmail: string;
   userPassword: string;
-  userRoles: Record<string, number>;
+  userRoles: number[];
   userRefreshToken: string;
   userOtp: string | undefined;
   userOtpExpireAt: number | undefined;
@@ -25,7 +25,7 @@ interface UserDocument extends mongoose.Document {
   userLastName: string;
   userEmail: string;
   userPassword: string;
-  userRoles: Record<string, number>;
+  userRoles: number[];
   userRefreshToken: string;
   userOtp: string | undefined;
   userOtpExpireAt: number | undefined;

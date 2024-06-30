@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import {
   registeruserRequestSchema,
   registeruserResponse,
-  registeruser,
+  registerUser,
 } from "../schemas/register-user-schema";
 import { UserService } from "../services/users";
 import {
@@ -28,7 +28,7 @@ const registeruserHandler = asyncHandler(
       throw new RequestValidationError(authenticateUserData.error.issues);
     }
 
-    const user: registeruser = authenticateUserData.data;
+    const user: registerUser = authenticateUserData.data;
 
     // Checking for existing user in database
     const existingUser = await UserService.getUserByEmail(user.userEmail);

@@ -2,9 +2,9 @@
   "name": "craftyverse-auth-service-v2",
   "version": "1.0.0",
   "description": "Updated implementation of the auth service",
-  "main": "index.js",
+  "main": "src/server.ts",
   "scripts": {
-    "dev:local": "ts-node-dev --poll src/server.ts",
+    "dev:local": "export NODE_ENV=development && nodemon --watch ./src/server.ts ",
     "test": "jest --no-cache --verbose --coverage --detectOpenHandles --forceExit"
   },
   "jest": {
@@ -50,6 +50,8 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "nodemailer-mock": "^2.0.2"
+    "nodemailer-mock": "^2.0.2",
+    "nodemon": "^3.1.2",
+    "ts-node": "^10.9.2"
   }
 }

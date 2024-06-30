@@ -1,5 +1,5 @@
 import { User } from "../models/user";
-import { registeruser } from "../schemas/register-user-schema";
+import { registerUser } from "../schemas/register-user-schema";
 import {
   BadRequestError,
   NotFoundError,
@@ -26,7 +26,7 @@ export class UserService {
     return responseUser;
   }
 
-  static async createUser(user: registeruser, refreshToken: string) {
+  static async createUser(user: registerUser, refreshToken: string) {
     const newUser = User.build({
       userFirstName: user.userFirstName,
       userLastName: user.userLastName,
