@@ -35,6 +35,9 @@ export const registeruserRequestSchema = z
       required_error: "You forgot to re-enter your password.",
     }),
     userRoles: z.array(z.number()),
+    isTermsAndConditionsAccepted: z.boolean({
+      required_error: "You must accept the terms and conditions.",
+    }),
   })
   .refine((data) => data.userPassword === data.userConfirmPassword, {
     message: "your password does not match the above.",

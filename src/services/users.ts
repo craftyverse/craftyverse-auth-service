@@ -34,6 +34,7 @@ export class UserService {
       userPassword: user.userPassword,
       userRefreshToken: refreshToken,
       userRoles: user.userRoles,
+      acceptedTermsAndConditions: user.isTermsAndConditionsAccepted,
       userOtp: undefined,
       userOtpExpireAt: undefined,
       userOtpVerified: undefined,
