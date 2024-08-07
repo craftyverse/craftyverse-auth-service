@@ -4,7 +4,7 @@
   "description": "Updated implementation of the auth service",
   "main": "src/server.ts",
   "scripts": {
-    "dev:local": "export NODE_ENV=development && nodemon --watch ./src/server.ts ",
+    "dev:local": "export NODE_ENV=development && nodemon ./src/server.ts ",
     "test": "jest --no-cache --verbose --coverage --detectOpenHandles --forceExit"
   },
   "jest": {
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "nodemailer-mock": "^2.0.2",
-    "nodemon": "^3.1.2",
+    "nodemon": "^3.1.4",
     "ts-node": "^10.9.2"
   }
 }

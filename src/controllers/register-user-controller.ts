@@ -43,8 +43,18 @@ const registeruserHandler = asyncHandler(
       throw new ConflictError(message);
     }
 
-    // Create new user
+    //  Check if user has accepted terms and conditions
+    if (!user.isTermsAndConditionsAccepted) {
+      const methodName = "isTermsAndConditionsAccepted";
+      const message = "User must accept terms and conditions.";
+      logEvents(
+        `${req.method}\t${req.headers.origin}\t${methodName}\t${message}`,
+        "error.txt"
+      );
+      throw new Error(message);
+    }
 
+    // Create new user
     const userRoles = Object.values(user.userRoles);
 
     // Generate JWT

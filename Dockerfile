@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:18-alpine
+FROM node:18-alpine
 
 WORKDIR /usr/app
 
@@ -7,10 +7,14 @@ COPY  .npmrc ./
 
 COPY package.json .
 
-RUN npm install --only=prod
+RUN npm install
 
 RUN rm -f .npmrc
 
 COPY . .
+
+ENV PORT 3000
+
+EXPOSE $PORT
 
 CMD ["npm", "run", "dev:local"]
