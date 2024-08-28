@@ -23,7 +23,7 @@ beforeAll(async () => {
 
 // Before each test, clear existing mongodb collections
 beforeEach(async () => {
-  const collections = await mongoose.connection.db.collections();
+  const collections = await mongoose.connection.db!.collections();
 
   for (const collection of collections) {
     await collection.deleteMany({});

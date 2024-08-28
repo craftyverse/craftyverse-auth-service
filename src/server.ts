@@ -24,13 +24,5 @@ const server = async () => {
     console.log(`V1 Server running on port ${PORT} running in dev mode`);
   });
 };
-if (process.env.NODE_ENV === "integrated") {
-  const PORT = process.env.PORT;
-  app.listen(PORT, () => {
-    console.log(
-      `V1 Server running on port ${PORT} running in local-integrated mode`
-    );
-  });
-}
 
 server();
