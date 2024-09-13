@@ -2,6 +2,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { SNSTestService } from "./sns-test-service";
 
 declare global {
   var signup: () => string;
@@ -19,6 +20,12 @@ beforeAll(async () => {
   mongoDbUri = mongoDb.getUri();
 
   await mongoose.connect(mongoDbUri, {});
+
+  // sns setup
+  const snsTestService = new SNSTestService();
+  await snsTestService.createTopic("user_created_topic");
+
+  // sqs setup
 });
 
 // Before each test, clear existing mongodb collections
